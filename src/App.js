@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import "./App.css";
+import UserForm from "./UI/UserForm";
+import UserList from "./UI/UserList";
 
 function App() {
+  const [arrayOfUsers, addToArrayOfUsers] = useState([]);
+
+  const addUser = (newUsername, newAge) => {
+      addToArrayOfUsers( (prevArrayOfUsers) => {
+          const arrayOfUsers = [...prevArrayOfUsers];
+          const newUser = {
+            'username': newUsername,
+            'age': newAge,
+        }
+        arrayOfUsers.unshift(newUser);
+        return arrayOfUsers;
+      });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <UserForm addUserFunction={addUser} />
+      <UserList userList={arrayOfUsers} id="user-list" />
     </div>
   );
 }
